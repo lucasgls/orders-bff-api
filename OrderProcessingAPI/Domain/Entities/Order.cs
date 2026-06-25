@@ -1,5 +1,4 @@
 ﻿using OrderProcessingAPI.Domain.Enum;
-using System.ComponentModel.DataAnnotations;
 
 namespace OrderProcessingAPI.Domain.Entities
 {

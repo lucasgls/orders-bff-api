@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using Microsoft.AspNetCore.Http;
 using OrderProcessingAPI.Application.DTOs;
 using OrderProcessingAPI.Domain.Exceptions;
 

@@ -1,9 +1,10 @@
 ﻿using OrderProcessingAPI.Application.DTOs;
+using OrderProcessingAPI.Application.Interfaces;
 using OrderProcessingAPI.Domain.Entities;
 
-namespace OrderProcessingAPI.Application.Services
+namespace OrderProcessingAPI.Application.Mappers
 {
-    public class MapperService
+    public class OrderMapper : IOrderMapper
     {
         public OrderResponseDto ToResponse(Order order)
         {
@@ -24,7 +25,7 @@ namespace OrderProcessingAPI.Application.Services
             OrderId: order.Id,
             Message: message,
             OrderNumber: order.OrderNumber,
-            Timestamp: order.UpdatedAt
+            CanceledAt: order.UpdatedAt
             );
         }
     }

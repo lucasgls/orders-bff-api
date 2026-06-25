@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using OrderProcessingAPI.Application.Interfaces;
+using OrderProcessingAPI.Application.Mappers;
 using OrderProcessingAPI.Application.Services;
 using OrderProcessingAPI.Infrastructure.Data;
 using OrderProcessingAPI.Middleware;
@@ -8,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<MapperService>();
+builder.Services.AddScoped<IOrderMapper, OrderMapper>();
 builder.Services.AddTransient<ExceptionMiddleware>();
 builder.Services.AddOpenApi();
 

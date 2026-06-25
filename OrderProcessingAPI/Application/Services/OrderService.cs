@@ -1,17 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderProcessingAPI.Application.DTOs;
 using OrderProcessingAPI.Application.Interfaces;
+using OrderProcessingAPI.Application.Mappers;
 using OrderProcessingAPI.Domain.Exceptions;
 using OrderProcessingAPI.Infrastructure.Data;
-using OrderProcessingAPI.Domain.Enum;
 
 namespace OrderProcessingAPI.Application.Services
 {
     public class OrderService : IOrderService
     {
-        private AppDbContext _context;
-        private MapperService _mapper;
-        public OrderService(AppDbContext context, MapperService mapper)
+        private readonly AppDbContext _context;
+        private readonly IOrderMapper _mapper;
+
+        public OrderService(AppDbContext context, IOrderMapper mapper)
         {
             _context = context;
             _mapper = mapper;

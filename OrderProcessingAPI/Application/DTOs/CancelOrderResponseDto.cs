@@ -5,6 +5,6 @@
         Guid OrderId,
         string Message,
         string OrderNumber,
-        DateTime Timestamp
+        DateTime CanceledAt
     );
 }

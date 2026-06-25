@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace OrderProcessingAPI.Application.DTOs
+﻿namespace OrderProcessingAPI.Application.DTOs
 {
     public record ErrorResponseDto
     (
