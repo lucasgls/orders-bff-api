@@ -3,7 +3,7 @@ using OrderProcessingAPI.Application.DTOs;
 using OrderProcessingAPI.Application.Interfaces;
 using OrderProcessingAPI.Domain.Exceptions;
 using OrderProcessingAPI.Infrastructure.Data;
-using OrderProcessingAPI.Models.Enum;
+using OrderProcessingAPI.Domain.Enum;
 
 namespace OrderProcessingAPI.Application.Services
 {
@@ -24,24 +24,17 @@ namespace OrderProcessingAPI.Application.Services
             if (order is null)
                 throw new NotFoundException("Pedido não encontrado");
 
-            if (order.Status == OrderStatus.CANCELED)
+            if (order.IsAlreadyCanceled())
                 throw new BusinessRuleException("Pedido já está cancelado");
 
-            if (order.Status == OrderStatus.INVOICED)
+            if (order.IsInvoiced())
                 throw new BusinessRuleException("Pedido faturado não pode ser cancelado");
 
-            order.Status = OrderStatus.CANCELED;
-            order.UpdatedAt = DateTime.UtcNow;
+            order.Cancel();
 
             await _context.SaveChangesAsync();
 
-            return new CancelOrderResponseDto
-            (
-                OrderId: order.Id,
-                Message: "Pedido cancelado com sucesso!",
-                OrderNumber: order.OrderNumber,
-                Timestamp: order.UpdatedAt
-            );
+            return _mapper.ToCancelOrderResponse(order, "Pedido cancelado com sucesso");
         }
 
         public async Task<OrderResponseDto> GetOrderByIdAsync(Guid orderId)
@@ -49,7 +42,7 @@ namespace OrderProcessingAPI.Application.Services
             var order = await _context.Orders.FindAsync(orderId);
 
             if (order is null)
-                throw new KeyNotFoundException("Pedido não encontrado");
+                throw new NotFoundException("Pedido não encontrado");
 
             return _mapper.ToResponse(order);
         }

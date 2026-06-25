@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderProcessingAPI.Domain.Entities;
-using OrderProcessingAPI.Models.Enum;
+using OrderProcessingAPI.Domain.Enum;
 
 namespace OrderProcessingAPI.Infrastructure.Data
 {
@@ -34,7 +34,7 @@ namespace OrderProcessingAPI.Infrastructure.Data
                     OrderNumber = "PED-0002",
                     CustomerName = "Carlos Souza",
                     TotalAmount = 1340.00m,
-                    Status = OrderStatus.PAYMENT_PENDING,
+                    Status = OrderStatus.PAYMENT_APPROVED,
                     CreatedAt = new DateTime(2026, 6, 20, 12, 10, 0, DateTimeKind.Utc),
                     UpdatedAt = new DateTime(2026, 6, 20, 12, 10, 0, DateTimeKind.Utc)
                 },

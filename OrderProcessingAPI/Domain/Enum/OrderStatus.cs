@@ -1,4 +1,4 @@
-﻿namespace OrderProcessingAPI.Models.Enum
+﻿namespace OrderProcessingAPI.Domain.Enum
 {
     public enum OrderStatus
     {

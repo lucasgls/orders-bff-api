@@ -1,12 +1,10 @@
-﻿using OrderProcessingAPI.Models.Enum;
+﻿using OrderProcessingAPI.Domain.Enum;
 using System.ComponentModel.DataAnnotations;
 
 namespace OrderProcessingAPI.Domain.Entities
 {
     public class Order
     {
-        [Key]
-        [Required]
         public Guid Id { get; set; }
         public string OrderNumber { get; set; } = string.Empty;
         public string CustomerName { get; set; } = string.Empty;
@@ -26,8 +24,8 @@ namespace OrderProcessingAPI.Domain.Entities
             OrderNumber = orderNumber;
             TotalAmount = totalAmount;
             Status = status;
-            CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
         }
 
         public bool IsAlreadyCanceled() 
@@ -41,7 +39,7 @@ namespace OrderProcessingAPI.Domain.Entities
         public void Cancel() 
         {
             Status = OrderStatus.CANCELED;
-            UpdatedAt = DateTime.Now;
+            UpdatedAt = DateTime.UtcNow;
         }
     }
 }

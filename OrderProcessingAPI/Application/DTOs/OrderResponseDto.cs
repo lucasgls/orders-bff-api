@@ -1,4 +1,4 @@
-﻿using OrderProcessingAPI.Models.Enum;
+﻿using OrderProcessingAPI.Domain.Enum;
 
 namespace OrderProcessingAPI.Application.DTOs
 {
