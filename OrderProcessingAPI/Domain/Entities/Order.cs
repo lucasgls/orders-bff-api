@@ -21,6 +21,7 @@ namespace OrderProcessingAPI.Domain.Entities
         {
             Id = Guid.NewGuid();
             OrderNumber = orderNumber;
+            CustomerName = customerName;
             TotalAmount = totalAmount;
             Status = status;
             CreatedAt = DateTime.UtcNow;
@@ -29,15 +30,15 @@ namespace OrderProcessingAPI.Domain.Entities
 
         public bool IsAlreadyCanceled() 
         {
-            return Status == OrderStatus.CANCELED;
+            return Status == OrderStatus.Canceled;
         }
         public bool IsInvoiced() 
         {
-            return Status == OrderStatus.INVOICED;
+            return Status == OrderStatus.Invoiced;
         }
         public void Cancel() 
         {
-            Status = OrderStatus.CANCELED;
+            Status = OrderStatus.Canceled;
             UpdatedAt = DateTime.UtcNow;
         }
     }

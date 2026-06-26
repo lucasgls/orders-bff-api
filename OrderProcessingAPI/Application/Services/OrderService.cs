@@ -1,26 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OrderProcessingAPI.Application.DTOs;
+﻿using OrderProcessingAPI.Application.DTOs;
 using OrderProcessingAPI.Application.Interfaces;
-using OrderProcessingAPI.Application.Mappers;
 using OrderProcessingAPI.Domain.Exceptions;
-using OrderProcessingAPI.Infrastructure.Data;
 
 namespace OrderProcessingAPI.Application.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly AppDbContext _context;
+        private readonly IOrderRepository _repository;
         private readonly IOrderMapper _mapper;
 
-        public OrderService(AppDbContext context, IOrderMapper mapper)
+        public OrderService(IOrderRepository repository, IOrderMapper mapper)
         {
-            _context = context;
+            _repository = repository;
             _mapper = mapper;
         }
 
-        public async Task<CancelOrderResponseDto> CancelOrderByIdAsync(Guid orderId)
+        public async Task<CancelOrderResponseDto> CancelOrderAsync(Guid orderId)
         {
-            var order = await _context.Orders.FindAsync(orderId);
+            var order = await _repository.GetByIdAsync(orderId);
 
             if (order is null)
                 throw new NotFoundException("Pedido não encontrado");
@@ -33,14 +30,14 @@ namespace OrderProcessingAPI.Application.Services
 
             order.Cancel();
 
-            await _context.SaveChangesAsync();
+            await _repository.SaveAsync();
 
             return _mapper.ToCancelOrderResponse(order, "Pedido cancelado com sucesso");
         }
 
-        public async Task<OrderResponseDto> GetOrderByIdAsync(Guid orderId)
+        public async Task<OrderResponseDto> GetOrderAsync(Guid orderId)
         {
-            var order = await _context.Orders.FindAsync(orderId);
+            var order = await _repository.GetByIdAsync(orderId);
 
             if (order is null)
                 throw new NotFoundException("Pedido não encontrado");
@@ -48,11 +45,9 @@ namespace OrderProcessingAPI.Application.Services
             return _mapper.ToResponse(order);
         }
 
-        public async Task<IReadOnlyList<OrderResponseDto>> GetOrderListAsync()
+        public async Task<IReadOnlyList<OrderResponseDto>> GetOrdersAsync()
         {
-            var orders = await _context.Orders
-                .AsNoTracking()
-                .ToListAsync();
+            var orders = await _repository.GetAllAsync();
 
             return orders.Select(_mapper.ToResponse).ToList();
         }
