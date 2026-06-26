@@ -24,7 +24,7 @@ namespace OrderProcessingAPI.Infrastructure.Data
                     OrderNumber = "PED-0001",
                     CustomerName = "Ana Silva",
                     TotalAmount = 250.00m,
-                    Status = OrderStatus.ORDER_PLACED,
+                    Status = OrderStatus.OrderPlaced,
                     CreatedAt = new DateTime(2026, 6, 20, 12, 0, 0, DateTimeKind.Utc),
                     UpdatedAt = new DateTime(2026, 6, 20, 12, 0, 0, DateTimeKind.Utc)
                 },
@@ -34,7 +34,7 @@ namespace OrderProcessingAPI.Infrastructure.Data
                     OrderNumber = "PED-0002",
                     CustomerName = "Carlos Souza",
                     TotalAmount = 1340.00m,
-                    Status = OrderStatus.PAYMENT_APPROVED,
+                    Status = OrderStatus.PaymentApproved,
                     CreatedAt = new DateTime(2026, 6, 20, 12, 10, 0, DateTimeKind.Utc),
                     UpdatedAt = new DateTime(2026, 6, 20, 12, 10, 0, DateTimeKind.Utc)
                 },
@@ -44,7 +44,7 @@ namespace OrderProcessingAPI.Infrastructure.Data
                     OrderNumber = "PED-0003",
                     CustomerName = "Fernanda Lima",
                     TotalAmount = 89.90m,
-                    Status = OrderStatus.HANDLING,
+                    Status = OrderStatus.Handling,
                     CreatedAt = new DateTime(2026, 6, 20, 12, 20, 0, DateTimeKind.Utc),
                     UpdatedAt = new DateTime(2026, 6, 20, 12, 20, 0, DateTimeKind.Utc)
                 },
@@ -54,7 +54,7 @@ namespace OrderProcessingAPI.Infrastructure.Data
                     OrderNumber = "PED-0004",
                     CustomerName = "Ricardo Mendes",
                     TotalAmount = 499.00m,
-                    Status = OrderStatus.INVOICED,
+                    Status = OrderStatus.Invoiced,
                     CreatedAt = new DateTime(2026, 6, 20, 12, 30, 0, DateTimeKind.Utc),
                     UpdatedAt = new DateTime(2026, 6, 20, 12, 30, 0, DateTimeKind.Utc)
                 },
@@ -64,7 +64,7 @@ namespace OrderProcessingAPI.Infrastructure.Data
                     OrderNumber = "PED-0005",
                     CustomerName = "Juliana Costa",
                     TotalAmount = 720.50m,
-                    Status = OrderStatus.CANCELED,
+                    Status = OrderStatus.Canceled,
                     CreatedAt = new DateTime(2026, 6, 20, 12, 40, 0, DateTimeKind.Utc),
                     UpdatedAt = new DateTime(2026, 6, 20, 12, 40, 0, DateTimeKind.Utc)
                 }

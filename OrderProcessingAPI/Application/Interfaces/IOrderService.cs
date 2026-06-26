@@ -4,8 +4,8 @@ namespace OrderProcessingAPI.Application.Interfaces
 {
     public interface IOrderService
     {
-        Task<IReadOnlyList<OrderResponseDto>> GetOrderListAsync();
-        Task<OrderResponseDto> GetOrderByIdAsync(Guid orderId);
-        Task<CancelOrderResponseDto> CancelOrderByIdAsync(Guid orderId);
+        Task<IReadOnlyList<OrderResponseDto>> GetOrdersAsync();
+        Task<OrderResponseDto> GetOrderAsync(Guid orderId);
+        Task<CancelOrderResponseDto> CancelOrderAsync(Guid orderId);
     }
 }
