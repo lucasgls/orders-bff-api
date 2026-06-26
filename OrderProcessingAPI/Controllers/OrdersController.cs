@@ -2,7 +2,7 @@
 using OrderProcessingAPI.Application.DTOs;
 using OrderProcessingAPI.Application.Interfaces;
 
-namespace OrdersProcessingAPI.Controllers
+namespace OrderProcessingAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -18,7 +18,7 @@ namespace OrdersProcessingAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<OrderResponseDto>>> GetOrders()
         {
-            var orders = await _orderService.GetOrderListAsync();
+            var orders = await _orderService.GetOrdersAsync();
 
             return Ok(orders);
         }
@@ -26,7 +26,7 @@ namespace OrdersProcessingAPI.Controllers
         [HttpGet("{orderId}")]
         public async Task<ActionResult<IReadOnlyList<OrderResponseDto>>> GetOrderById(Guid orderId)
         {
-            var order = await _orderService.GetOrderByIdAsync(orderId);
+            var order = await _orderService.GetOrderAsync(orderId);
 
             return Ok(order);
         }
@@ -34,7 +34,7 @@ namespace OrdersProcessingAPI.Controllers
         [HttpPost("{orderId}/cancel")]
         public async Task<ActionResult<CancelOrderResponseDto>> CancelOrderById(Guid orderId)
         {
-            var order = await _orderService.CancelOrderByIdAsync(orderId);
+            var order = await _orderService.CancelOrderAsync(orderId);
 
             return Ok(order);
         }
