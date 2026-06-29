@@ -7,5 +7,6 @@ namespace OrderProcessingAPI.Application.Interfaces
         Task<IReadOnlyList<OrderResponseDto>> GetOrdersAsync();
         Task<OrderResponseDto> GetOrderAsync(Guid orderId);
         Task<CancelOrderResponseDto> CancelOrderAsync(Guid orderId);
+        Task<AdvanceStatusResponseDto> AdvanceOrderStatusAsync(Guid orderId);
     }
 }

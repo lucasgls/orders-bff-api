@@ -32,13 +32,21 @@ namespace OrderProcessingAPI.Domain.Entities
         {
             return Status == OrderStatus.Canceled;
         }
+
         public bool IsInvoiced() 
         {
             return Status == OrderStatus.Invoiced;
         }
+
         public void Cancel() 
         {
             Status = OrderStatus.Canceled;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void AdvanceStatus()
+        {
+            Status = (OrderStatus)((int)Status + 1);
             UpdatedAt = DateTime.UtcNow;
         }
     }

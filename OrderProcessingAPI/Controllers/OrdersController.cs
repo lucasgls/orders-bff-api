@@ -38,5 +38,13 @@ namespace OrderProcessingAPI.Controllers
 
             return Ok(order);
         }
+
+        [HttpPatch("{orderId}/advance-status")]
+        public async Task<ActionResult<OrderResponseDto>> AdvanceOrderById(Guid orderId)
+        {
+            var order = await _orderService.AdvanceOrderStatusAsync(orderId);
+
+            return Ok(order);
+        }
     }
 }
