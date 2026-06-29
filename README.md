@@ -2,7 +2,7 @@
 
 > ⚠️ **Em desenvolvimento**
 
-API REST desenvolvida em .NET 10 com ASP.NET Core para gerenciamento de cancelamento de pedidos. Permite listar pedidos, buscar por ID e cancelar pedidos com validações de regras de negócio.
+API REST desenvolvida em .NET 10 com ASP.NET Core para gerenciamento e cancelamento de pedidos. Permite listar pedidos, buscar por ID, cancelar e avançar o status de pedidos com validações de regras de negócio.
 
 ---
 
@@ -11,6 +11,7 @@ API REST desenvolvida em .NET 10 com ASP.NET Core para gerenciamento de cancelam
 - Listagem de todos os pedidos
 - Busca de pedido por ID
 - Cancelamento de pedido com validação de status
+- Avanço de status do pedido com validação de regras de negócio
 - Tratamento global de erros via middleware
 - Seed de dados para ambiente de desenvolvimento
 
@@ -63,8 +64,7 @@ dotnet ef database update --project OrderProcessingAPI
 dotnet run --project OrderProcessingAPI
 ```
 
-A API estará disponível em `https://localhost:7221` por padrão. 
-(vale confirmar no launchSettings.json)
+A API estará disponível em `https://localhost:7221` por padrão.
 
 ---
 
@@ -150,17 +150,50 @@ Cancela um pedido pelo ID. Retorna erro se o pedido já estiver cancelado ou fat
 
 ---
 
+### `PATCH /api/orders/{id}/advance-status`
+Avança o status do pedido para o próximo na sequência. Retorna erro se o pedido estiver cancelado ou já faturado.
+
+**Response `200 OK`:**
+```json
+{
+    "orderId": "22222222-2222-2222-2222-222222222222",
+    "orderNumber": "PED-0002",
+    "currentStatus": 1,
+    "updatedAt": "2026-06-25T14:00:00Z"
+}
+```
+
+**Response `404 Not Found`** — pedido não existe:
+```json
+{
+  "erro": "Pedido não encontrado",
+  "status": 404,
+  "timestamp": "2026-06-29T14:00:00Z"
+}
+```
+
+**Response `422 Unprocessable Entity`** — pedido cancelado ou faturado:
+```json
+{
+  "erro": "Pedido faturado não pode ser avançado",
+  "status": 422,
+  "timestamp": "2026-06-29T14:00:00Z"
+}
+```
+
+---
+
 ## 🔢 Status dos Pedidos
 
 | Valor | Nome               | Descrição                        |
 |-------|--------------------|----------------------------------|
-| `0`   | `ORDER_PLACED`     | Pedido realizado                 |
-| `1`   | `PAYMENT_PENDING`  | Aguardando pagamento             |
-| `2`   | `PAYMENT_APPROVED` | Pagamento aprovado               |
-| `3`   | `READY_FOR_HANDLING` | Pronto para separação          |
-| `4`   | `HANDLING`         | Em separação                     |
-| `5`   | `INVOICED`         | Faturado — não pode ser cancelado |
-| `6`   | `CANCELED`         | Cancelado                        |
+| `0`   | `OrderPlaced`      | Pedido realizado                 |
+| `1`   | `PaymentPending`   | Aguardando pagamento             |
+| `2`   | `PaymentApproved`  | Pagamento aprovado               |
+| `3`   | `ReadyForHandling` | Pronto para separação            |
+| `4`   | `Handling`         | Em separação                     |
+| `5`   | `Invoiced`         | Faturado — não pode ser cancelado |
+| `6`   | `Canceled`         | Cancelado                        |
 
 ---
 
@@ -168,19 +201,18 @@ Cancela um pedido pelo ID. Retorna erro se o pedido já estiver cancelado ou fat
 
 O banco é populado automaticamente com 5 pedidos de exemplo:
 
-| Pedido   | Cliente         | Valor     | Status               |
-|----------|-----------------|-----------|----------------------|
-| PED-0001 | Ana Silva       | R$ 250,00 | ORDER_PLACED         |
-| PED-0002 | Carlos Souza    | R$ 1340,00| PAYMENT_APPROVED     |
-| PED-0003 | Fernanda Lima   | R$ 89,90  | HANDLING             |
-| PED-0004 | Ricardo Mendes  | R$ 499,00 | INVOICED             |
-| PED-0005 | Juliana Costa   | R$ 720,50 | CANCELED             |
+| Pedido   | Cliente         | Valor      | Status           |
+|----------|-----------------|------------|------------------|
+| PED-0001 | Ana Silva       | R$ 250,00  | OrderPlaced      |
+| PED-0002 | Carlos Souza    | R$ 1340,00 | PaymentApproved  |
+| PED-0003 | Fernanda Lima   | R$ 89,90   | Handling         |
+| PED-0004 | Ricardo Mendes  | R$ 499,00  | Invoiced         |
+| PED-0005 | Juliana Costa   | R$ 720,50  | Canceled         |
 
 ---
 ## ⚠️ Regras de Negócio
 
-- Pedidos com status `CANCELED` **não podem** ser cancelados novamente → `422`
-- Pedidos com status `INVOICED` **não podem** ser cancelados → `422`
-- Todos os demais status **podem** ser cancelados normalmente
-
----
+- Pedidos com status `Canceled` **não podem** ser cancelados novamente → `422`
+- Pedidos com status `Invoiced` **não podem** ser cancelados → `422`
+- Pedidos com status `Canceled` ou `Invoiced` **não podem** ter o status avançado → `422`
+- Todos os demais status **podem** ser cancelados ou avançados normalmente

@@ -1,6 +1,8 @@
 ﻿using OrderProcessingAPI.Application.DTOs;
 using OrderProcessingAPI.Application.Interfaces;
+using OrderProcessingAPI.Domain.Enum;
 using OrderProcessingAPI.Domain.Exceptions;
+using System.Net.NetworkInformation;
 
 namespace OrderProcessingAPI.Application.Services
 {
@@ -50,6 +52,23 @@ namespace OrderProcessingAPI.Application.Services
             var orders = await _repository.GetAllAsync();
 
             return orders.Select(_mapper.ToResponse).ToList();
+        }
+
+        public async Task<AdvanceStatusResponseDto> AdvanceOrderStatusAsync(Guid orderId)
+        {
+            var order = await _repository.GetByIdAsync(orderId);
+
+            if (order is null)
+                throw new NotFoundException("Pedido não encontrado");
+
+            if (order.IsInvoiced() || order.IsAlreadyCanceled())
+                throw new BusinessRuleException("Pedido não pode ser avançado");
+            
+            order.AdvanceStatus();
+
+            await _repository.SaveAsync();
+
+            return _mapper.ToAdvanceStatusResponseDto(order);
         }
     }
 }

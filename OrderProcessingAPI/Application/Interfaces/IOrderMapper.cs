@@ -7,5 +7,6 @@ namespace OrderProcessingAPI.Application.Interfaces
     {
         OrderResponseDto ToResponse(Order order);
         CancelOrderResponseDto ToCancelOrderResponse(Order order, string message);
+        AdvanceStatusResponseDto ToAdvanceStatusResponseDto(Order order);
     }
 }

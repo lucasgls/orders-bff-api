@@ -28,5 +28,15 @@ namespace OrderProcessingAPI.Application.Mappers
             CanceledAt: order.UpdatedAt
             );
         }
+
+        public AdvanceStatusResponseDto ToAdvanceStatusResponseDto(Order order)
+        {
+            return new(
+            OrderId: order.Id,
+            OrderNumber: order.OrderNumber,
+            CurrentStatus: order.Status,
+            UpdatedAt: order.UpdatedAt
+            );
+        }
     }
 }
