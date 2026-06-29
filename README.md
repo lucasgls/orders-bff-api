@@ -1,6 +1,5 @@
 # 📦 Cancel Orders BFF API
 
-
 > ⚠️ **Em desenvolvimento**
 
 API REST desenvolvida em .NET 10 com ASP.NET Core para gerenciamento e cancelamento de pedidos. Permite listar pedidos, buscar por ID, cancelar e avançar o status de pedidos com validações de regras de negócio.
@@ -32,7 +31,7 @@ API REST desenvolvida em .NET 10 com ASP.NET Core para gerenciamento e cancelame
 ### Pré-requisitos
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
-- [PostgreSQL](https://www.postgresql.org/)
+- [PostgreSQL 18](https://www.postgresql.org/)
 
 ### 1. Clone o repositório
 
@@ -43,7 +42,7 @@ cd orders-bff-api
 
 ### 2. Configure a connection string
 
-No arquivo `appsettings.json` (ou `appsettings.Development.json`):
+No arquivo `appsettings.json`
 
 ```json
 {
@@ -211,7 +210,6 @@ O banco é populado automaticamente com 5 pedidos de exemplo:
 | PED-0005 | Juliana Costa   | R$ 720,50  | Canceled         |
 
 ---
-
 ## ⚠️ Regras de Negócio
 
 - Pedidos com status `Canceled` **não podem** ser cancelados novamente → `422`
