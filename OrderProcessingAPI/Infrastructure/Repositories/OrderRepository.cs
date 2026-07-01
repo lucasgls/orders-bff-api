@@ -25,6 +25,20 @@ namespace OrderProcessingAPI.Infrastructure.Repositories
             return await _context.Orders
                 .ToListAsync();
         }
+        
+        public async Task<Order?> GetLastOrderNumberAsync()
+        {
+            return await _context.Orders
+                .OrderByDescending(o => o.OrderNumber)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Order?> CreateAsync(Order order)
+        {
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
+            return order;
+        }
 
         public async Task SaveAsync()
         {

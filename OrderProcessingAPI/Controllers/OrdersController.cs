@@ -40,11 +40,19 @@ namespace OrderProcessingAPI.Controllers
         }
 
         [HttpPatch("{orderId}/advance-status")]
-        public async Task<ActionResult<OrderResponseDto>> AdvanceOrderById(Guid orderId)
+        public async Task<ActionResult<AdvanceStatusResponseDto>> AdvanceOrderById(Guid orderId)
         {
             var order = await _orderService.AdvanceOrderStatusAsync(orderId);
 
             return Ok(order);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<OrderResponseDto>> CreateOrder([FromBody] CreateOrderDto request)
+        {
+            var order = await _orderService.CreateOrderAsync(request);
+
+            return Created($"api/orders/{order.Id}", order);
         }
     }
 }

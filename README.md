@@ -8,12 +8,12 @@ API REST desenvolvida em .NET 10 com ASP.NET Core para gerenciamento e cancelame
 
 ## ✅ Funcionalidades
 
+- Criação de pedido  
 - Listagem de todos os pedidos
 - Busca de pedido por ID
 - Cancelamento de pedido com validação de status
 - Avanço de status do pedido com validação de regras de negócio
 - Tratamento global de erros via middleware
-- Seed de dados para ambiente de desenvolvimento
 
 ---
 
@@ -69,6 +69,30 @@ A API estará disponível em `https://localhost:7221` por padrão.
 ---
 
 ## 📋 Endpoints
+
+### `POST /api/orders`
+Cria um novo pedido.
+
+**Request Body:**
+```json
+{
+  "customerName": "Lucas Gabriel",
+  "totalAmount": 350.00
+}
+```
+
+**Response `201 Created`:**
+```json
+{
+  "id": "03d7c953-166b-4005-aebd-9b7452f7895c",
+  "orderNumber": "PED-0006",
+  "customerName": "Lucas Gabriel",
+  "totalAmount": 350.00,
+  "status": 0,
+  "createdAt": "2026-05-01T14:00:00Z",
+  "updatedAt": "2026-05-01T14:00:00Z"
+}
+```
 
 ### `GET /api/orders`
 Retorna a lista de todos os pedidos cadastrados.

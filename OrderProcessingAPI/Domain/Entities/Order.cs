@@ -17,13 +17,13 @@ namespace OrderProcessingAPI.Domain.Entities
             
         }
 
-        public Order(string orderNumber, string customerName, decimal totalAmount, OrderStatus status)
+        public Order(string orderNumber, string customerName, decimal totalAmount)
         {
             Id = Guid.NewGuid();
             OrderNumber = orderNumber;
             CustomerName = customerName;
             TotalAmount = totalAmount;
-            Status = status;
+            Status = OrderStatus.OrderPlaced;
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = DateTime.UtcNow;
         }
