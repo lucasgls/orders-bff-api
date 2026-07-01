@@ -7,14 +7,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OrderProcessingAPI.Infrastructure.Data;
 
-
 #nullable disable
 
 namespace OrderProcessingAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260623232545_AddOrdersSeed")]
-    partial class AddOrdersSeed
+    [Migration("20260701140043_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,17 +36,20 @@ namespace OrderProcessingAPI.Migrations
 
                     b.Property<string>("CustomerName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("OrderNumber")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .IsUnicode(true)
                         .HasColumnType("text");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("TotalAmount")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -59,7 +61,7 @@ namespace OrderProcessingAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            Id = new Guid("03d7c953-166b-4005-aebd-9b7452f7895c"),
                             CreatedAt = new DateTime(2026, 6, 20, 12, 0, 0, 0, DateTimeKind.Utc),
                             CustomerName = "Ana Silva",
                             OrderNumber = "PED-0001",
@@ -69,17 +71,17 @@ namespace OrderProcessingAPI.Migrations
                         },
                         new
                         {
-                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            Id = new Guid("fa10850e-3be4-46b6-9b94-16289600b049"),
                             CreatedAt = new DateTime(2026, 6, 20, 12, 10, 0, 0, DateTimeKind.Utc),
                             CustomerName = "Carlos Souza",
                             OrderNumber = "PED-0002",
-                            Status = 1,
+                            Status = 2,
                             TotalAmount = 1340.00m,
                             UpdatedAt = new DateTime(2026, 6, 20, 12, 10, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
-                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            Id = new Guid("5951a1b8-e09a-465c-8635-e633c7f8d15a"),
                             CreatedAt = new DateTime(2026, 6, 20, 12, 20, 0, 0, DateTimeKind.Utc),
                             CustomerName = "Fernanda Lima",
                             OrderNumber = "PED-0003",
@@ -89,7 +91,7 @@ namespace OrderProcessingAPI.Migrations
                         },
                         new
                         {
-                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            Id = new Guid("2ac64cde-d27a-47d2-9f12-f3d0fb8ff35c"),
                             CreatedAt = new DateTime(2026, 6, 20, 12, 30, 0, 0, DateTimeKind.Utc),
                             CustomerName = "Ricardo Mendes",
                             OrderNumber = "PED-0004",
@@ -99,7 +101,7 @@ namespace OrderProcessingAPI.Migrations
                         },
                         new
                         {
-                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Id = new Guid("e8d80e2a-15f6-4902-ab16-ddf48b4137e0"),
                             CreatedAt = new DateTime(2026, 6, 20, 12, 40, 0, 0, DateTimeKind.Utc),
                             CustomerName = "Juliana Costa",
                             OrderNumber = "PED-0005",

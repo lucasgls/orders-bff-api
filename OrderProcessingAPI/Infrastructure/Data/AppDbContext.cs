@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderProcessingAPI.Domain.Entities;
-using OrderProcessingAPI.Domain.Enum;
+using OrderProcessingAPI.Infrastructure.Data.Configurations;
 
 namespace OrderProcessingAPI.Infrastructure.Data
 {
@@ -17,7 +17,7 @@ namespace OrderProcessingAPI.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderConfiguration).Assembly);
         }
     }
 }
