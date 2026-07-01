@@ -8,5 +8,6 @@ namespace OrderProcessingAPI.Application.Interfaces
         Task<OrderResponseDto> GetOrderAsync(Guid orderId);
         Task<CancelOrderResponseDto> CancelOrderAsync(Guid orderId);
         Task<AdvanceStatusResponseDto> AdvanceOrderStatusAsync(Guid orderId);
+        Task<OrderResponseDto> CreateOrderAsync(CreateOrderDto request);
     }
 }

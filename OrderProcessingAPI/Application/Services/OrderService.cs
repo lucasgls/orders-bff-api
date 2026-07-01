@@ -1,8 +1,7 @@
 ﻿using OrderProcessingAPI.Application.DTOs;
 using OrderProcessingAPI.Application.Interfaces;
-using OrderProcessingAPI.Domain.Enum;
+using OrderProcessingAPI.Domain.Entities;
 using OrderProcessingAPI.Domain.Exceptions;
-using System.Net.NetworkInformation;
 
 namespace OrderProcessingAPI.Application.Services
 {
@@ -69,6 +68,28 @@ namespace OrderProcessingAPI.Application.Services
             await _repository.SaveAsync();
 
             return _mapper.ToAdvanceStatusResponseDto(order);
+        }
+
+        public async Task<OrderResponseDto> CreateOrderAsync(CreateOrderDto request)
+        {
+            var generateOrderNumber = await GenerateOrderNumberAsync();
+
+            var order = new Order(generateOrderNumber, request.CustomerName, request.TotalAmount);
+
+            await _repository.CreateAsync(order);
+        
+            return _mapper.ToResponse(order);
+        }
+
+        private async Task<string> GenerateOrderNumberAsync()
+        {
+            var lastOrder = await _repository.GetLastOrderNumberAsync();
+            
+            if (lastOrder is null) return "PED-0001";
+
+            var lastNumber = int.Parse(lastOrder.OrderNumber[4..]);
+
+            return $"PED-{lastNumber + 1:D4}";
         }
     }
 }
